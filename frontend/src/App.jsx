@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import New from "./pages/New";
 import Notfound from "./pages/Notfound";
 import { getEmotionImage } from "./util/get-emotion-image";
+import Button from "./components/Button";
+import Header from "./components/Header";
 
 // 1. "/" : 모든 일기를 조회하는 Home 페이지
 // 2. "/new": 새로운 일기를 작성하는 New 페이지
@@ -21,30 +23,35 @@ function App() {
 
   return (
     <>
-      <div>
-        <img src={getEmotionImage(1)} />
-        <img src={getEmotionImage(2)} />
-        <img src={getEmotionImage(3)} />
-        <img src={getEmotionImage(4)} />
-        <img src={getEmotionImage(5)} />
-      </div>
+      <Header
+        title={"Header"}
+        leftChild={<Button text={"Left"} />}
+        rightChild={<Button text={"Right"} />}
+      />
 
-      <div>
-        {/* Link 컴포넌트를 사용하면 전체 페이지 리로드 없이 SPA 방식으로 네비게이션이 가능 */}
-        <Link to={"/"}>Home</Link>
-        <Link to={"/new"}>New</Link>
-        <Link to={"/diary"}>Diary</Link>
+      <Button
+        text={"111"}
+        onClick={() => {
+          console.log("111");
+        }}
+      />
 
-        {/* a 태그를 사용하면 페이지가 전체적으로 리로드되며, 네비게이션 시 상태가 초기화됨 */}
-        {/* <a href="/">Home</a> */}
-        {/* <a href="/new">New</a> */}
-        {/* <a href="/diary">Diary</a> */}
-      </div>
+      <Button
+        text={"222"}
+        type={"POSITIVE"}
+        onClick={() => {
+          console.log("222");
+        }}
+      />
 
-      <button onClick={onClickButton}>New 페이지로 이동</button>
+      <Button
+        text={"333"}
+        type={"NEGATIVE"}
+        onClick={() => {
+          console.log("333");
+        }}
+      />
 
-      {/* Routes 컴포넌트 내부에는 Route 컴포넌트만 배치할 수 있습니다.  */}
-      {/* Routes 외부에 작성된 컴포넌트는 모든 페이지에서 공통으로 렌더링됩니다. */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/new" element={<New />} />
