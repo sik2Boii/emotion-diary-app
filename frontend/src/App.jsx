@@ -1,3 +1,4 @@
+import { createContext, useReducer, useRef } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Button from "./components/Button";
@@ -7,7 +8,6 @@ import Edit from "./pages/Edit";
 import Home from "./pages/Home";
 import New from "./pages/New";
 import Notfound from "./pages/Notfound";
-import { useReducer } from "react";
 
 const mockData = [
   {
@@ -25,11 +25,58 @@ const mockData = [
 ];
 
 function reducer(state, action) {
-  return state;
+  switch (action.type) {
+    case "CREATE":
+      return [action.data, ...state];
+    case "UPDATE":
+      return state.map((item) =>
+        String(item.id) === String(action.data.id) ? action.data : item
+      );
+    case "DELETE":
+      return state.filter((item) => String(item.id) !== String(action.id));
+  }
 }
+
+const DiaryStateContext = createContext();
+const DiaryDispatchContext = createContext();
 
 function App() {
   const [data, dispatch] = useReducer(reducer, mockData);
+  const idRef = useRef(3);
+
+  // Create
+  const onCreate = (createdDate, emotionId, content) => {
+    dispatch({
+      type: "CREATE",
+      data: {
+        id: idRef.current++,
+        createdDate,
+        emotionId,
+        content,
+      },
+    });
+  };
+
+  // Update
+  const onUpdate = (id, createdDate, emotionId, content) => {
+    dispatch({
+      type: "UPDATE",
+      data: {
+        id,
+        createdDate,
+        emotionId,
+        content,
+      },
+    });
+  };
+
+  // Delete
+  const onDelete = (id) => {
+    dispatch({
+      type: "DELETE",
+      id,
+    });
+  };
 
   return (
     <>
@@ -39,13 +86,41 @@ function App() {
         rightChild={<Button text={"Right"} />}
       />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/new" element={<New />} />
-        <Route path="/diary/:id" element={<Diary />} />
-        <Route path="/edit/:id" element={<Edit />} />
-        <Route path="*" element={<Notfound />} />
-      </Routes>
+      <button
+        onClick={() => {
+          onCreate(new Date().getTime(), 1, "Hello");
+        }}
+      >
+        onCreate_Test
+      </button>
+
+      <button
+        onClick={() => {
+          onUpdate(1, new Date().getTime(), 3, "수정본");
+        }}
+      >
+        onUpdate_Test
+      </button>
+
+      <button
+        onClick={() => {
+          onDelete(1);
+        }}
+      >
+        onDelete_Test
+      </button>
+
+      <DiaryStateContext.Provider value={data}>
+        <DiaryDispatchContext.Provider value={{ onCreate, onUpdate, onDelete }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/new" element={<New />} />
+            <Route path="/diary/:id" element={<Diary />} />
+            <Route path="/edit/:id" element={<Edit />} />
+            <Route path="*" element={<Notfound />} />
+          </Routes>
+        </DiaryDispatchContext.Provider>
+      </DiaryStateContext.Provider>
     </>
   );
 }
