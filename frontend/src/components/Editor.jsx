@@ -1,32 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { emotionList } from "../util/constants";
 import Button from "./Button";
 import "./Editor.css";
 import EmotionItem from "./EmotionItem";
-
-// 감정 리스트
-const emotionList = [
-  {
-    emotionId: 1,
-    emotionName: "최고",
-  },
-  {
-    emotionId: 2,
-    emotionName: "좋음",
-  },
-  {
-    emotionId: 3,
-    emotionName: "그냥저냥",
-  },
-  {
-    emotionId: 4,
-    emotionName: "나쁨",
-  },
-  {
-    emotionId: 5,
-    emotionName: "끔찍",
-  },
-];
 
 // 날자를 문자열로 변환하는 함수
 const getStringedDate = (targetDate) => {
