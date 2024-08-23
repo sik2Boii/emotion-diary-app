@@ -1,24 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { emotionList } from "../util/constants";
+import { getStringedDate } from "../util/get-stringed-date";
 import Button from "./Button";
 import "./Editor.css";
 import EmotionItem from "./EmotionItem";
-
-// 날자를 문자열로 변환하는 함수
-const getStringedDate = (targetDate) => {
-  let year = targetDate.getFullYear();
-  let month = targetDate.getMonth() + 1;
-  let date = targetDate.getDate();
-
-  if (month < 10) {
-    month = `0${month}`;
-  }
-  if (date < 10) {
-    date = `0${date}`;
-  }
-  return `${year}-${month}-${date}`;
-};
 
 // Editor 컴포넌트
 const Editor = ({ initData, onSubmit }) => {
