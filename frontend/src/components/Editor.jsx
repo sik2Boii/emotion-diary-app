@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import "./Editor.css";
@@ -43,7 +43,9 @@ const getStringedDate = (targetDate) => {
   return `${year}-${month}-${date}`;
 };
 
-const Editor = ({ onSubmit }) => {
+// Editor 컴포넌트
+const Editor = ({ initData, onSubmit }) => {
+  // 입력 값을 관리하기 위한 state
   const [input, setInput] = useState({
     createdDate: new Date(),
     emotionId: 3,
@@ -51,6 +53,16 @@ const Editor = ({ onSubmit }) => {
   });
 
   const nav = useNavigate();
+
+  // 컴포넌트가 처음 렌더링될 때, 초기 데이터를 불러와 state를 설정
+  useEffect(() => {
+    if (initData) {
+      setInput({
+        ...initData,
+        createdDate: new Date(Number(initData.createdDate)),
+      });
+    }
+  }, [initData]);
 
   // input 값이 변경될 때 호출되는 함수
   const onChangeInput = (e) => {
@@ -67,7 +79,7 @@ const Editor = ({ onSubmit }) => {
     });
   };
 
-  // 버튼 클릭 시 호출되는 함수
+  // '작성완료' 버튼 클릭 시 호출되는 함수
   const onClickSubmitButton = () => {
     onSubmit(input);
   };
