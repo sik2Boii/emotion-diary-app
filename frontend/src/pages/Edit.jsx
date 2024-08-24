@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import Editor from "../components/Editor";
 import Header from "../components/Header";
 import useDiary from "../hooks/useDiary";
+import usePageTitle from "../hooks/usePageTitle";
 
 // Edit 컴포넌트
 const Edit = () => {
@@ -12,6 +13,7 @@ const Edit = () => {
   const nav = useNavigate();
   const { onDelete, onUpdate } = useContext(DiaryDispatchContext);
   const curDiaryItem = useDiary(params.id);
+  usePageTitle(`${params.id}번 일기 수정`);
 
   // '삭제하기' 버튼 클릭 시 호출되는 함수
   const onClickDelete = () => {

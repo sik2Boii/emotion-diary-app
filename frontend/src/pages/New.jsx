@@ -4,10 +4,12 @@ import { DiaryDispatchContext } from "../App";
 import Button from "../components/Button";
 import Editor from "../components/Editor";
 import Header from "../components/Header";
+import usePageTitle from "../hooks/usePageTitle";
 
 const New = () => {
   const { onCreate } = useContext(DiaryDispatchContext);
   const nav = useNavigate();
+  usePageTitle("새 일기 쓰기");
 
   // 제출된 데이터를 처리하는 함수
   const onSubmit = (input) => {

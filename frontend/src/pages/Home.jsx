@@ -3,6 +3,7 @@ import { DiaryStateContext } from "../App";
 import Button from "../components/Button";
 import DiaryList from "../components/DiaryList";
 import Header from "../components/Header";
+import usePageTitle from "../hooks/usePageTitle";
 
 // 특정 달의 데이터를 필터링하여 반환하는 함수
 const getMonthlyData = (pivotDate, data) => {
@@ -35,6 +36,7 @@ const Home = () => {
   const [pivotDate, setPivotDate] = useState(new Date());
   const data = useContext(DiaryStateContext);
   const monthlyData = getMonthlyData(pivotDate, data);
+  usePageTitle("감정 일기장");
 
   // 이전 달로 이동
   const onDecreaseMonth = () => {
